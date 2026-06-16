@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAÉ 2.03 — Drive Django | Aymen Mrizel</title>
+  <meta name="description" content="Portfolio SAÉ 2.03 — Application web Drive supermarché avec Django, MariaDB et déploiement sur VMs Debian." />
+  <meta property="og:title" content="SAÉ 2.03 — Drive Django | Aymen Mrizel" />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#040c15" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23040c15'/><text x='16' y='22' text-anchor='middle' font-family='monospace' font-weight='bold' font-size='15' fill='%2300d4ff'>AM</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ── STYLES SPÉCIFIQUES SAÉ 2.03 ── */
+
+    .sae-hero {
+      padding: calc(var(--nav-h) + 70px) 5vw 60px;
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sae-hero-inner {
+      max-width: 900px;
+    }
+
+    .sae-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      color: var(--green);
+      background: rgba(100, 220, 120, 0.06);
+      border: 1px solid rgba(100, 220, 120, 0.22);
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+
+    .sae-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+    }
+
+    .sae-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      margin-bottom: 1rem;
+    }
+
+    .sae-hero h1 em {
+      font-style: normal;
+      color: var(--green);
+    }
+
+    .sae-hero-desc {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 640px;
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+
+    .sae-meta-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .sae-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sae-meta-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .sae-meta-value {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── SECTIONS CONTENU ── */
+    .sae-section {
+      padding: 80px 5vw;
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sae-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .sae-section-inner {
+      max-width: 900px;
+    }
+
+    /* Schéma BDD */
+    .schema-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-top: 1.6rem;
+    }
+
+    .schema-table {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .schema-table:hover {
+      border-color: var(--border-bright);
+    }
+
+    .schema-table-name {
+      background: var(--bg3);
+      padding: 8px 14px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .schema-table-fields {
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .schema-field {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--text-muted);
+    }
+
+    .schema-field .pk {
+      color: var(--cyan);
+    }
+
+    .schema-field .fk {
+      color: var(--purple);
+    }
+
+    /* Tâches réalisées */
+    .tasks-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-top: 1.6rem;
+    }
+
+    @media (max-width: 640px) {
+      .tasks-grid { grid-template-columns: 1fr; }
+    }
+
+    .task-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .task-card:hover {
+      border-color: var(--green-dim);
+      box-shadow: 0 4px 20px rgba(100, 220, 120, 0.06);
+    }
+
+    .task-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .task-icon {
+      width: 32px; height: 32px;
+      background: rgba(100, 220, 120, 0.1);
+      border: 1px solid rgba(100, 220, 120, 0.2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--green);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .task-card-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .task-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .task-card ul li {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .task-card ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+    }
+
+    /* Code snippet */
+    .code-block {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    .code-block .kw { color: var(--purple); }
+    .code-block .fn { color: var(--cyan); }
+    .code-block .st { color: var(--green); }
+    .code-block .cm { color: #3a5a7a; }
+
+    /* Compétences */
+    .competences-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-top: 1.6rem;
+    }
+
+    @media (max-width: 640px) {
+      .competences-grid { grid-template-columns: 1fr; }
+    }
+
+    .competence-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+    }
+
+    .competence-ac {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .competence-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.8rem;
+    }
+
+    .competence-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Difficultés */
+    .problems-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.6rem;
+    }
+
+    .problem-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .problem-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      background: rgba(26, 108, 255, 0.1);
+      border: 1px solid rgba(26, 108, 255, 0.2);
+      color: var(--blue);
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .problem-content strong {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .problem-content p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* English summary */
+    .english-box {
+      background: var(--card);
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .english-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+    }
+
+    .english-flag {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .english-flag::before {
+      content: '🇬🇧';
+      font-size: 0.9rem;
+    }
+
+    .english-box p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.85;
+    }
+
+    .english-box p + p {
+      margin-top: 1rem;
+    }
+
+    /* Proof section */
+    .proof-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-top: 1.6rem;
+    }
+
+    @media (max-width: 640px) {
+      .proof-grid { grid-template-columns: 1fr; }
+    }
+
+    .proof-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .proof-card-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .proof-card-value {
+      font-size: 0.82rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .proof-card a {
+      color: var(--cyan);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      transition: opacity 0.2s;
+    }
+
+    .proof-card a:hover { opacity: 0.7; }
+
+    /* Relations schema */
+    .relation-line {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .relation-line:last-child { border-bottom: none; }
+
+    .rel-table { color: var(--green); font-weight: 700; }
+    .rel-arrow { color: var(--purple); }
+    .rel-type { color: var(--cyan); font-size: 0.6rem; }
+
+    /* Réflexion */
+    .reflexion-block {
+      background: var(--bg3);
+      border-left: 3px solid var(--cyan);
+      padding: 1.2rem 1.6rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-top: 1.6rem;
+    }
+
+    .reflexion-block p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .reflexion-block p + p {
+      margin-top: 0.8rem;
+    }
+
+    /* Breadcrumb */
+    .sae-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 0.67rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .sae-breadcrumb a { color: var(--cyan); transition: opacity 0.2s; }
+    .sae-breadcrumb a:hover { opacity: 0.7; }
+
+    /* Back button footer */
+    .sae-footer {
+      padding: 60px 5vw;
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .sae-footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* Responsives */
+    @media (max-width: 640px) {
+      .tasks-grid,
+      .competences-grid,
+      .proof-grid {
+        grid-template-columns: 1fr;
+      }
+      .schema-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════
+       NAV
+  ══════════════════════════════════════════════════ -->
+  <nav>
+    <a href="index.html" class="nav-logo">AM<span>.</span>portfolio</a>
+    <ul class="nav-links">
+      <li><a href="index.html#parcours">Parcours</a></li>
+      <li><a href="index.html#competences">Compétences</a></li>
+      <li><a href="Projets.html" class="active">Projets</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <a href="https://aymen68212-create.github.io/Mon-CV-/Mon%20CV.pdf" class="nav-cv" target="_blank" rel="noopener noreferrer">↓ CV</a>
+    <div class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu">
+    <a href="index.html">Accueil</a>
+    <a href="index.html#parcours">Parcours</a>
+    <a href="index.html#competences">Compétences</a>
+    <a href="Projets.html">Projets</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="https://aymen68212-create.github.io/Mon-CV-/Mon%20CV.pdf" target="_blank" rel="noopener noreferrer">↓ Télécharger CV</a>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       HERO SAÉ
+  ══════════════════════════════════════════════════ -->
+  <div class="sae-hero">
+    <div class="sae-hero-inner">
+      <div class="sae-breadcrumb">
+        <a href="index.html">Accueil</a>
+        <span>/</span>
+        <a href="Projets.html">Projets</a>
+        <span>/</span>
+        <span>SAÉ 2.03</span>
+      </div>
+
+      <div class="sae-badge">SAÉ 2.03 — Développement Web</div>
+
+      <h1>Application Drive<br /><em>Supermarché</em></h1>
+
+      <p class="sae-hero-desc">
+        Conception et déploiement d'une application web complète de gestion d'un drive de supermarché. Stack Django + MariaDB sur deux VMs Debian — avec CRUD, import CSV et déploiement Nginx/Gunicorn.
+      </p>
+
+      <div class="project-stack" style="margin-bottom:1.6rem;">
+        <span class="tag green">Django</span>
+        <span class="tag green">Python</span>
+        <span class="tag accent">MariaDB</span>
+        <span class="tag accent">Nginx</span>
+        <span class="tag accent">Gunicorn</span>
+        <span class="tag">Debian</span>
+        <span class="tag">VirtualBox</span>
+        <span class="tag">GitHub</span>
+      </div>
+
+      <div class="sae-meta-grid">
+        <div class="sae-meta-item">
+          <span class="sae-meta-label">Compétence BUT R&amp;T</span>
+          <span class="sae-meta-value">RT3 — Administrer les systèmes</span>
+        </div>
+        <div class="sae-meta-item">
+          <span class="sae-meta-label">Groupe</span>
+          <span class="sae-meta-value">Aymen · Armin · Basile</span>
+        </div>
+        <div class="sae-meta-item">
+          <span class="sae-meta-label">Durée</span>
+          <span class="sae-meta-value">Mai – Juin 2026</span>
+        </div>
+        <div class="sae-meta-item">
+          <span class="sae-meta-label">Rendu</span>
+          <span class="sae-meta-value">13 juin 2026</span>
+        </div>
+        <div class="sae-meta-item">
+          <span class="sae-meta-label">Dépôt</span>
+          <a href="https://github.com/Basile-123/SAE_Drive" target="_blank" rel="noopener noreferrer" style="color:var(--cyan); font-family:var(--font-mono); font-size:0.78rem;">github.com/Basile-123/SAE_Drive ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════════
+       1. CONTEXTE DU PROJET
+  ══════════════════════════════════════════════════ -->
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 01 — Contexte</div>
+      <h2 class="section-title reveal">Présentation du <em>projet</em></h2>
+      <p class="section-sub reveal">
+        Cadre académique, objectif et contraintes techniques imposées.
+      </p>
+
+      <div class="project-detail reveal" style="margin-top:2rem;">
+        <div class="project-detail-body" style="grid-template-columns: 1fr 1fr;">
+          <div>
+            <div class="detail-section-title">Objectif</div>
+            <ul class="detail-list">
+              <li>Développer une application web de gestion d'un drive de supermarché permettant aux clients de passer des commandes en ligne</li>
+              <li>Déployer l'application sur une infrastructure à deux VMs VirtualBox sous Debian</li>
+              <li>Travailler en équipe avec GitHub comme outil de collaboration</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-section-title">Contraintes imposées par le professeur</div>
+            <ul class="detail-list">
+              <li><strong style="color:var(--text)">Tables SQL manuelles</strong> — Django ne crée pas les tables, elles sont créées manuellement en SQL (<code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">managed = False</code> dans les Meta)</li>
+              <li><strong style="color:var(--text)">Stack imposée</strong> — Django (pas Flask), MariaDB/MySQL</li>
+              <li><strong style="color:var(--text)">Deux VMs obligatoires</strong> — une pour la BDD, une pour l'app Django</li>
+              <li><strong style="color:var(--text)">Repo GitHub unique</strong> pour tout le groupe</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-section-title">Répartition des rôles dans le groupe</div>
+            <ul class="detail-list">
+              <li><strong style="color:var(--text)">Aymen</strong> — Schéma relationnel BDD, CRUD Produits + import CSV, CRUD Clients, CRUD Lignes de commande, calcul coût total</li>
+              <li><strong style="color:var(--text)">Armin</strong> — CRUD Commandes, modèles Commande/LigneCommande, interface HTML/CSS</li>
+              <li><strong style="color:var(--text)">Basile</strong> — Modèles Catégorie/Produit/Client, CRUD Catégories, configuration des deux VMs, déploiement MariaDB + Nginx/Gunicorn</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-section-title">Architecture de déploiement</div>
+            <ul class="detail-list">
+              <li><strong style="color:var(--text)">VM1</strong> — Debian + MariaDB (base : <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">drive_db</code>)</li>
+              <li><strong style="color:var(--text)">VM2</strong> — Debian + Django + Nginx + Gunicorn (reverse proxy → socket Unix)</li>
+              <li>Communication inter-VMs via réseau VirtualBox <em>accès par pont</em>, IPs statiques sur le même sous-réseau</li>
+              <li>Fichiers statiques servis par Nginx via <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">collectstatic</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════════
+       2. SCHÉMA BDD
+  ══════════════════════════════════════════════════ -->
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 02 — Base de données</div>
+      <h2 class="section-title reveal">Schéma <em>relationnel</em></h2>
+      <p class="section-sub reveal">
+        5 tables conçues sur draw.io — j'ai réalisé le schéma complet et défini les clés étrangères.
+      </p>
+
+      <div class="schema-grid reveal">
+        <div class="schema-table">
+          <div class="schema-table-name">categorie</div>
+          <div class="schema-table-fields">
+            <div class="schema-field"><span class="pk">PK</span> id</div>
+            <div class="schema-field">nom</div>
+          </div>
+        </div>
+        <div class="schema-table">
+          <div class="schema-table-name">produit</div>
+          <div class="schema-table-fields">
+            <div class="schema-field"><span class="pk">PK</span> id</div>
+            <div class="schema-field">nom</div>
+            <div class="schema-field">prix</div>
+            <div class="schema-field">stock</div>
+            <div class="schema-field"><span class="fk">FK</span> categorie_id</div>
+          </div>
+        </div>
+        <div class="schema-table">
+          <div class="schema-table-name">client</div>
+          <div class="schema-table-fields">
+            <div class="schema-field"><span class="pk">PK</span> id</div>
+            <div class="schema-field">nom</div>
+            <div class="schema-field">prenom</div>
+            <div class="schema-field">email</div>
+            <div class="schema-field">date_inscription</div>
+          </div>
+        </div>
+        <div class="schema-table">
+          <div class="schema-table-name">commande</div>
+          <div class="schema-table-fields">
+            <div class="schema-field"><span class="pk">PK</span> id</div>
+            <div class="schema-field">date_commande</div>
+            <div class="schema-field">statut</div>
+            <div class="schema-field"><span class="fk">FK</span> client_id</div>
+          </div>
+        </div>
+        <div class="schema-table">
+          <div class="schema-table-name">ligne_commande</div>
+          <div class="schema-table-fields">
+            <div class="schema-field"><span class="pk">PK</span> id</div>
+            <div class="schema-field">quantite</div>
+            <div class="schema-field"><em style="color:var(--cyan-dim);font-size:0.6rem;">sous_total()</em></div>
+            <div class="schema-field"><span class="fk">FK</span> commande_id</div>
+            <div class="schema-field"><span class="fk">FK</span> produit_id</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-detail reveal" style="margin-top:1.6rem;">
+        <div class="detail-section-title" style="margin-bottom:0.8rem;">Relations entre tables</div>
+        <div class="relation-line">
+          <span class="rel-table">produit</span>
+          <span class="rel-arrow">→</span>
+          <span class="rel-table">categorie</span>
+          <span class="rel-type">MANY-TO-ONE</span>
+          <span style="color:var(--text-muted); font-size:0.65rem;">Un produit appartient à une catégorie</span>
+        </div>
+        <div class="relation-line">
+          <span class="rel-table">commande</span>
+          <span class="rel-arrow">→</span>
+          <span class="rel-table">client</span>
+          <span class="rel-type">MANY-TO-ONE</span>
+          <span style="color:var(--text-muted); font-size:0.65rem;">Une commande appartient à un client</span>
+        </div>
+        <div class="relation-line">
+          <span class="rel-table">ligne_commande</span>
+          <span class="rel-arrow">→</span>
+          <span class="rel-table">commande + produit</span>
+          <span class="rel-type">TABLE DE JONCTION</span>
+          <span style="color:var(--text-muted); font-size:0.65rem;">Relation N–N entre commande et produit</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════════
+       3. TÂCHES RÉALISÉES PERSONNELLEMENT
+  ══════════════════════════════════════════════════ -->
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 03 — Mes contributions</div>
+      <h2 class="section-title reveal">Ce que j'ai <em>réalisé</em></h2>
+      <p class="section-sub reveal">
+        Détail précis des tâches que j'ai personnellement développées dans ce projet.
+      </p>
+
+      <div class="tasks-grid">
+
+        <div class="task-card reveal">
+          <div class="task-card-header">
+            <div class="task-icon">01</div>
+            <div class="task-card-title">Schéma relationnel BDD</div>
+          </div>
+          <ul>
+            <li>Conception des 5 tables sur draw.io avec typage de chaque champ</li>
+            <li>Définition des clés primaires et étrangères</li>
+            <li>Modélisation de la relation N–N via <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">ligne_commande</code></li>
+            <li>Vérification de la cohérence du schéma avec les contraintes Django (<code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">managed = False</code>)</li>
+          </ul>
+        </div>
+
+        <div class="task-card reveal">
+          <div class="task-card-header">
+            <div class="task-icon">02</div>
+            <div class="task-card-title">CRUD Produits complet</div>
+          </div>
+          <ul>
+            <li>Vue liste avec affichage catégorie et prix</li>
+            <li>Formulaire d'ajout avec <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">ModelForm</code> + select catégories dynamique</li>
+            <li>Vue modification avec pré-sélection de la catégorie existante</li>
+            <li>Vue suppression avec confirmation</li>
+          </ul>
+        </div>
+
+        <div class="task-card reveal">
+          <div class="task-card-header">
+            <div class="task-icon">03</div>
+            <div class="task-card-title">Import CSV Produits</div>
+          </div>
+          <ul>
+            <li>Upload de fichier via formulaire HTML</li>
+            <li>Lecture ligne par ligne avec <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">csv.DictReader</code></li>
+            <li>Gestion d'erreurs avec <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">try/except</code> — les lignes incorrectes sont ignorées</li>
+            <li>Insertion en base via Django ORM pour les lignes valides</li>
+          </ul>
+        </div>
+
+        <div class="task-card reveal">
+          <div class="task-card-header">
+            <div class="task-icon">04</div>
+            <div class="task-card-title">CRUD Clients</div>
+          </div>
+          <ul>
+            <li>Modèle avec <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">auto_now_add=True</code> pour la date d'inscription (automatique à la création)</li>
+            <li>Vue liste, ajout, modification, suppression complètes</li>
+            <li>Formulaire avec validation des champs email et téléphone</li>
+          </ul>
+        </div>
+
+        <div class="task-card reveal">
+          <div class="task-card-header">
+            <div class="task-icon">05</div>
+            <div class="task-card-title">CRUD Lignes de commande</div>
+          </div>
+          <ul>
+            <li>Création des lignes liées à une commande avec select produit dynamique</li>
+            <li>Méthode <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">sous_total()</code> calculée à la volée : <code style="color:var(--green); font-family:var(--font-mono); font-size:0.72em;">quantite × produit.prix</code></li>
+            <li>Suppression de ligne avec recalcul automatique du total</li>
+          </ul>
+        </div>
+
+        <div class="task-card reveal">
+          <div class="task-card-header">
+            <div class="task-icon">06</div>
+            <div class="task-card-title">Calcul du coût total</div>
+          </div>
+          <ul>
+            <li>Méthode <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">cout_total()</code> sur le modèle <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">Commande</code></li>
+            <li>Somme des <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.75em;">sous_total()</code> de toutes les lignes associées</li>
+            <li>Calcul en temps réel sans stockage en base — pas de redondance de données</li>
+            <li>Affiché sur la fiche récapitulative imprimable de la commande</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Extrait de code -->
+      <div class="reveal" style="margin-top:2rem;">
+        <div class="detail-section-title" style="margin-bottom:0.8rem;">Extrait de code — méthodes de calcul</div>
+        <div class="code-block">
+<span class="cm"># models.py — calcul du coût sans stockage BDD</span>
+<span class="kw">class</span> <span class="fn">LigneCommande</span>(models.Model):
+    commande  = models.ForeignKey(Commande, on_delete=models.CASCADE)
+    produit   = models.ForeignKey(Produit, on_delete=models.PROTECT)
+    quantite  = models.IntegerField()
+
+    <span class="kw">def</span> <span class="fn">sous_total</span>(self):
+        <span class="kw">return</span> self.quantite * self.produit.prix
+
+    <span class="kw">class</span> <span class="fn">Meta</span>:
+        db_table = <span class="st">'ligne_commande'</span>  <span class="cm"># table créée manuellement en SQL</span>
+        managed  = <span class="kw">False</span>
+
+
+<span class="kw">class</span> <span class="fn">Commande</span>(models.Model):
+    <span class="kw">def</span> <span class="fn">cout_total</span>(self):
+        <span class="kw">return</span> sum(l.sous_total() <span class="kw">for</span> l <span class="kw">in</span> self.lignecommande_set.all())
+        </div>
+      </div>
+
+      <!-- Import CSV extrait -->
+      <div class="reveal" style="margin-top:1.4rem;">
+        <div class="detail-section-title" style="margin-bottom:0.8rem;">Extrait de code — import CSV</div>
+        <div class="code-block">
+<span class="cm"># views.py — import de produits via fichier CSV</span>
+<span class="kw">def</span> <span class="fn">importer_csv</span>(request):
+    <span class="kw">if</span> request.method == <span class="st">'POST'</span>:
+        fichier = request.FILES[<span class="st">'fichier_csv'</span>]
+        reader  = csv.DictReader(io.TextIOWrapper(fichier))
+        <span class="kw">for</span> row <span class="kw">in</span> reader:
+            <span class="kw">try</span>:
+                Produit.objects.create(
+                    nom=row[<span class="st">'nom'</span>],
+                    prix=Decimal(row[<span class="st">'prix'</span>]),
+                    stock=int(row[<span class="st">'stock'</span>]),
+                    categorie_id=int(row[<span class="st">'categorie_id'</span>])
+                )
+            <span class="kw">except</span> (KeyError, ValueError, InvalidOperation):
+                <span class="kw">pass</span>  <span class="cm"># ligne incorrecte ignorée silencieusement</span>
+    <span class="kw">return</span> redirect(<span class="st">'produits_list'</span>)
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════════
+       4. DIFFICULTÉS RENCONTRÉES
+  ══════════════════════════════════════════════════ -->
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 04 — Difficultés & solutions</div>
+      <h2 class="section-title reveal">Problèmes <em>rencontrés</em></h2>
+      <p class="section-sub reveal">
+        Démarche de résolution des problèmes techniques concrets rencontrés durant le projet.
+      </p>
+
+      <div class="problems-list">
+
+        <div class="problem-item reveal">
+          <div class="problem-label">Conflit Git</div>
+          <div class="problem-content">
+            <strong>Conflit de migrations lors de la fusion avec le code d'Armin</strong>
+            <p>Armin avait nommé son modèle <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.78em;">LigneProduit</code> alors que le projet utilisait <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.78em;">LigneCommande</code>. Les fichiers de migration étaient incompatibles. Solution : suppression complète des fichiers de migration (0001, 0002) et du fichier <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.78em;">db.sqlite3</code>, puis <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.78em;">makemigrations</code> + <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.78em;">migrate</code> à zéro.</p>
+          </div>
+        </div>
+
+        <div class="problem-item reveal">
+          <div class="problem-label">Déploiement</div>
+          <div class="problem-content">
+            <strong>mysqlclient refusait de s'installer sur la VM Debian</strong>
+            <p><code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.78em;">pip install mysqlclient</code> échouait avec une erreur de compilation C. Cause : bibliothèques système manquantes. Solution : <code style="color:var(--green); font-family:var(--font-mono); font-size:0.78em;">apt install pkg-config libmariadb-dev</code> avant l'installation pip.</p>
+          </div>
+        </div>
+
+        <div class="problem-item reveal">
+          <div class="problem-label">Django</div>
+          <div class="problem-content">
+            <strong>STATIC_ROOT non défini — collectstatic échoue</strong>
+            <p>La commande <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.78em;">python manage.py collectstatic</code> refusait de s'exécuter. Cause : <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.78em;">STATIC_ROOT</code> absent de <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.78em;">settings.py</code>. Solution : ajout de <code style="color:var(--green); font-family:var(--font-mono); font-size:0.78em;">STATIC_ROOT = BASE_DIR / 'staticfiles'</code>.</p>
+          </div>
+        </div>
+
+        <div class="problem-item reveal">
+          <div class="problem-label">Réseau VMs</div>
+          <div class="problem-content">
+            <strong>VM1 et VM2 ne communiquaient pas — IPs sur des sous-réseaux différents</strong>
+            <p>La VM MariaDB avait une IP statique configurée sur un sous-réseau différent de la VM Django. La connexion Django → MariaDB échouait. Solution : reconfiguration de <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.78em;">/etc/network/interfaces</code> sur les deux VMs pour placer les deux IPs sur le même sous-réseau (<code style="color:var(--green); font-family:var(--font-mono); font-size:0.78em;">192.168.x.0/24</code>).</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════════
+       5. COMPÉTENCES ACQUISES
+  ══════════════════════════════════════════════════ -->
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 05 — Compétences</div>
+      <h2 class="section-title reveal">Acquisition de <em>compétences</em></h2>
+      <p class="section-sub reveal">
+        Compétences du référentiel BUT R&amp;T validées et progression démontrée.
+      </p>
+
+      <div class="competences-grid">
+
+        <div class="competence-card reveal">
+          <div class="competence-ac">AC0311</div>
+          <div class="competence-title">Concevoir un modèle de données</div>
+          <div class="competence-desc">Conception du schéma relationnel à 5 tables sur draw.io, avec définition des clés primaires, clés étrangères et contraintes. Identification de la relation N–N entre Commande et Produit via table de jonction.</div>
+        </div>
+
+        <div class="competence-card reveal">
+          <div class="competence-ac">AC0312</div>
+          <div class="competence-title">Implémenter un CRUD complet</div>
+          <div class="competence-desc">Développement de 3 CRUD complets (Produits, Clients, Lignes de commande) avec Django ORM : vues liste, ajout, modification et suppression. Utilisation de ModelForm et de la gestion des relations via ForeignKey.</div>
+        </div>
+
+        <div class="competence-card reveal">
+          <div class="competence-ac">AC0313</div>
+          <div class="competence-title">Traitement de fichiers de données</div>
+          <div class="competence-desc">Implémentation de l'import CSV avec <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.8em;">csv.DictReader</code>, gestion des erreurs de format avec <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.8em;">try/except</code>, et insertion sécurisée en base de données.</div>
+        </div>
+
+        <div class="competence-card reveal">
+          <div class="competence-ac">AC0314</div>
+          <div class="competence-title">Logique métier sans redondance BDD</div>
+          <div class="competence-desc">Calcul du sous-total et du coût total de commande via méthodes Python (<code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.8em;">sous_total()</code>, <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.8em;">cout_total()</code>) sans stocker ces valeurs en base — conception propre et maintenable.</div>
+        </div>
+
+        <div class="competence-card reveal">
+          <div class="competence-ac">AC0315</div>
+          <div class="competence-title">Déploiement application web</div>
+          <div class="competence-desc">Participation au déploiement sur VM Debian : installation des dépendances système (<code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.8em;">libmariadb-dev</code>), configuration du <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.8em;">settings.py</code> pour MariaDB distant, <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.8em;">collectstatic</code>, résolution des problèmes de réseau inter-VMs.</div>
+        </div>
+
+        <div class="competence-card reveal">
+          <div class="competence-ac">AC0316</div>
+          <div class="competence-title">Travail collaboratif avec Git</div>
+          <div class="competence-desc">Gestion du repository GitHub partagé : commits réguliers, résolution du conflit de fusion entre les branches (modèle LigneProduit vs LigneCommande), synchronisation continue avec Armin et Basile.</div>
+        </div>
+
+      </div>
+
+      <!-- Analyse réflexive -->
+      <div class="reflexion-block reveal" style="margin-top:2rem;">
+        <p>
+          Ce projet m'a permis de passer d'une connaissance théorique de Django à une maîtrise concrète du framework en conditions réelles : BDD séparée sur une VM distante, contrainte <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.85em;">managed = False</code> imposant de comprendre réellement comment Django interagit avec la base, déploiement Nginx/Gunicorn en production.
+        </p>
+        <p>
+          La résolution du conflit de migration m'a appris à diagnostiquer rapidement les incohérences de modèles dans un projet collaboratif, et à repartir d'un état propre plutôt que de tenter de patcher un état incohérent — une décision qu'on reproduirait sans hésiter.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════════
+       6. ÉLÉMENTS DE PREUVE
+  ══════════════════════════════════════════════════ -->
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 06 — Preuves</div>
+      <h2 class="section-title reveal">Éléments de <em>preuve</em></h2>
+      <p class="section-sub reveal">
+        Livrables et éléments attestant de l'acquisition des compétences.
+      </p>
+
+      <div class="proof-grid">
+
+        <div class="proof-card reveal">
+          <div class="proof-card-label">Dépôt GitHub</div>
+          <div class="proof-card-value">Commits réguliers identifiables sur le repo partagé — commits signés par <strong>Aymen</strong> pour les modules produits, clients et lignes.</div>
+          <a href="https://github.com/Basile-123/SAE_Drive" target="_blank" rel="noopener noreferrer">github.com/Basile-123/SAE_Drive ↗</a>
+        </div>
+
+        <div class="proof-card reveal">
+          <div class="proof-card-label">Schéma relationnel</div>
+          <div class="proof-card-value">Schéma BDD complet réalisé sur draw.io — 5 tables, relations N–N via table de jonction, typage de chaque champ.</div>
+        </div>
+
+        <div class="proof-card reveal">
+          <div class="proof-card-label">Code Python / Django</div>
+          <div class="proof-card-value">Fichiers <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.8em;">views.py</code>, <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.8em;">models.py</code>, <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.8em;">forms.py</code> — CRUD produits, clients, lignes + import CSV + calcul coût total.</div>
+        </div>
+
+        <div class="proof-card reveal">
+          <div class="proof-card-label">Application fonctionnelle déployée</div>
+          <div class="proof-card-value">Site accessible via l'IP de la VM2 — servi par Nginx/Gunicorn, connecté à MariaDB sur la VM1 distante, fichiers statiques collectés.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════════
+       7. ENGLISH SUMMARY
+  ══════════════════════════════════════════════════ -->
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 07 — English summary</div>
+      <h2 class="section-title reveal">Project <em>overview</em></h2>
+
+      <div class="english-box reveal" style="margin-top:2rem;">
+        <div class="english-flag">English summary</div>
+        <p>
+          SAÉ 2.03 was a team project focused on building a full-stack web application for a supermarket drive (online grocery ordering system). Working in a group of three, we designed and deployed a Django application connected to a MariaDB database, hosted across two Debian virtual machines running on VirtualBox.
+        </p>
+        <p>
+          My personal contributions covered the database relational schema design (5 tables modelled on draw.io), full CRUD operations for Products — including a CSV bulk-import feature using Python's <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.85em;">csv.DictReader</code> with error handling — Customers CRUD, and Order Lines CRUD with on-the-fly cost calculation methods (<code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.85em;">sous_total()</code> and <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.85em;">cout_total()</code>) computed without storing redundant data in the database.
+        </p>
+        <p>
+          A key technical constraint imposed by the professor was that Django must not create database tables — all tables were created manually using raw SQL, with Django models set to <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.85em;">managed = False</code>. The application was deployed using Nginx as a reverse proxy and Gunicorn as a WSGI server communicating through a Unix socket. I also participated in troubleshooting deployment issues: resolving a missing system library blocking <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.85em;">mysqlclient</code> installation, fixing a <code style="color:var(--cyan); font-family:var(--font-mono); font-size:0.85em;">STATIC_ROOT</code> misconfiguration, and diagnosing a network routing issue preventing communication between the two VMs on different subnets.
+        </p>
+        <p>
+          This project strengthened my skills in web application development, relational database design, collaborative version control with Git, and Linux server deployment — all core competencies of the BUT Réseaux & Télécommunications program.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════ -->
+  <footer class="sae-footer">
+    <a href="Projets.html" class="btn-secondary">← Retour aux projets</a>
+    <span class="sae-footer-copy">Aymen Mrizel — BUT R&T IUT Colmar — 2026</span>
+    <a href="index.html#contact" class="btn-secondary">Contact →</a>
+  </footer>
+
+  <script src="Script.js"></script>
+</body>
+</html>
