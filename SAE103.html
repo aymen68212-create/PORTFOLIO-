@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAÉ 1.03 — HeatMaps Wi-Fi | Aymen Mrizel</title>
+  <meta name="theme-color" content="#FAFAF8" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23FAFAF8'/><text x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-weight='bold' font-size='14' fill='%23B8952A'>AM</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .sae-hero { padding: calc(var(--nav-h) + 70px) 5vw 60px; position:relative; z-index:1; border-bottom:1px solid var(--border); background:var(--bg2); }
+    .sae-hero-inner { max-width:860px; }
+    .sae-badge { display:inline-flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:0.62rem; color:var(--red); background:var(--red-pale); border:1px solid rgba(139,26,26,0.2); padding:4px 12px; border-radius:4px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:1.4rem; }
+    .sae-badge::before { content:''; width:6px; height:6px; background:var(--red); border-radius:50%; }
+    .sae-hero h1 { font-family:var(--font-serif); font-size:clamp(2rem,5vw,3.4rem); font-weight:600; line-height:1.08; margin-bottom:1rem; }
+    .sae-hero h1 em { font-style:italic; color:var(--red); }
+    .sae-hero-desc { color:var(--text-muted); font-size:0.95rem; max-width:620px; line-height:1.75; margin-bottom:2rem; }
+    .sae-meta-grid { display:flex; flex-wrap:wrap; gap:2rem; margin-top:2rem; padding-top:2rem; border-top:1px solid var(--border); }
+    .sae-meta-item { display:flex; flex-direction:column; gap:4px; }
+    .sae-meta-label { font-family:var(--font-mono); font-size:0.6rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; }
+    .sae-meta-value { font-size:0.9rem; font-weight:600; color:var(--text); }
+    .sae-section { padding:70px 5vw; position:relative; z-index:1; border-bottom:1px solid var(--border); }
+    .sae-section-inner { max-width:860px; }
+
+    /* Tâches */
+    .tasks-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-top:1.6rem; }
+    @media(max-width:640px){ .tasks-grid{grid-template-columns:1fr;} }
+    .task-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem; transition:border-color 0.2s; }
+    .task-card:hover { border-color:var(--border-br); }
+    .task-card-header { display:flex; align-items:center; gap:10px; margin-bottom:1rem; }
+    .task-icon { width:32px; height:32px; background:var(--red-pale); border:1px solid rgba(139,26,26,0.2); border-radius:6px; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:0.7rem; color:var(--red); font-weight:700; flex-shrink:0; }
+    .task-card-title { font-size:0.88rem; font-weight:600; color:var(--text); }
+    .task-card ul { list-style:none; display:flex; flex-direction:column; gap:6px; }
+    .task-card ul li { font-size:0.8rem; color:var(--text-muted); line-height:1.6; padding-left:1rem; position:relative; }
+    .task-card ul li::before { content:'·'; position:absolute; left:0; color:var(--gold); font-size:1.1rem; line-height:1.2; }
+
+    /* HeatMap grid */
+    .heatmap-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-top:1.6rem; }
+    @media(max-width:640px){ .heatmap-grid{grid-template-columns:1fr;} }
+    .heatmap-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color 0.2s, box-shadow 0.2s; }
+    .heatmap-card:hover { border-color:var(--border-br); box-shadow:0 4px 20px rgba(184,149,42,0.1); }
+    .heatmap-card img { width:100%; height:220px; object-fit:cover; display:block; }
+    .heatmap-card-body { padding:1rem 1.2rem; }
+    .heatmap-card-title { font-family:var(--font-serif); font-size:0.95rem; font-weight:600; color:var(--text); margin-bottom:4px; }
+    .heatmap-card-sub { font-family:var(--font-mono); font-size:0.6rem; color:var(--gold); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
+    .heatmap-card-desc { font-size:0.78rem; color:var(--text-muted); line-height:1.6; }
+
+    /* Compétences */
+    .comp-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-top:1.6rem; }
+    @media(max-width:640px){ .comp-grid{grid-template-columns:1fr;} }
+    .comp-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem; }
+    .comp-ac { font-family:var(--font-mono); font-size:0.6rem; color:var(--gold); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.5rem; }
+    .comp-title { font-size:0.88rem; font-weight:600; color:var(--text); margin-bottom:0.6rem; }
+    .comp-desc { font-size:0.78rem; color:var(--text-muted); line-height:1.7; }
+
+    /* Problèmes */
+    .problem-item { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem 1.4rem; display:grid; grid-template-columns:auto 1fr; gap:1rem; align-items:start; margin-bottom:1rem; }
+    .problem-label { font-family:var(--font-mono); font-size:0.58rem; background:var(--red-pale); border:1px solid rgba(139,26,26,0.2); color:var(--red); padding:3px 8px; border-radius:4px; text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; margin-top:2px; }
+    .problem-content strong { display:block; font-size:0.85rem; color:var(--text); margin-bottom:4px; }
+    .problem-content p { font-size:0.78rem; color:var(--text-muted); line-height:1.65; }
+
+    /* Reflexion */
+    .reflexion-block { background:var(--bg3); border-left:3px solid var(--gold); padding:1.2rem 1.6rem; border-radius:0 var(--radius) var(--radius) 0; margin-top:1.6rem; }
+    .reflexion-block p { font-size:0.88rem; color:var(--text-sub); line-height:1.8; }
+    .reflexion-block p+p { margin-top:0.8rem; }
+
+    /* English */
+    .english-box { background:var(--card); border:1px solid var(--border-br); border-radius:var(--radius-lg); padding:2rem; position:relative; overflow:hidden; margin-top:1.6rem; }
+    .english-box::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--red),var(--gold)); }
+    .english-flag { font-family:var(--font-mono); font-size:0.62rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:1rem; display:flex; align-items:center; gap:6px; }
+    .english-flag::before { content:'🇬🇧'; font-size:0.9rem; }
+    .english-box p { font-size:0.88rem; color:var(--text-muted); line-height:1.85; }
+    .english-box p+p { margin-top:1rem; }
+
+    /* Footer SAÉ */
+    .sae-footer { padding:50px 5vw; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; position:relative; z-index:1; background:var(--bg2); }
+    .sae-footer-copy { font-family:var(--font-mono); font-size:0.62rem; color:var(--text-muted); }
+
+    /* Legend */
+    .legend-box { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem 1.4rem; margin-top:1.4rem; display:flex; flex-wrap:wrap; gap:1rem; align-items:center; }
+    .legend-item { display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:0.65rem; color:var(--text-muted); }
+    .legend-dot { width:14px; height:14px; border-radius:3px; flex-shrink:0; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Aymen<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#parcours">Parcours</a></li>
+      <li><a href="index.html#competences">Compétences</a></li>
+      <li><a href="index.html#projets" class="active">Projets</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <a href="https://aymen68212-create.github.io/Mon-CV-/Mon%20CV.pdf" class="nav-cv" target="_blank" rel="noopener noreferrer">↓ CV</a>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="index.html">Accueil</a>
+    <a href="index.html#projets">Projets</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+
+  <!-- ── HERO ── -->
+  <div class="sae-hero">
+    <div class="sae-hero-inner">
+      <div class="breadcrumb">
+        <a href="index.html">Accueil</a><span>/</span>
+        <a href="index.html#projets">Projets</a><span>/</span>
+        <span>SAÉ 1.03</span>
+      </div>
+      <div class="sae-badge">SAÉ 1.03 — Connecter les entreprises</div>
+      <h1>Couverture Wi-Fi<br /><em>UHA — HeatMaps</em></h1>
+      <p class="sae-hero-desc">
+        Mesure, analyse et cartographie de la couverture Wi-Fi des bâtiments C et I de l'Université de Haute-Alsace avec le logiciel Acrylic Wi-Fi HeatMaps. Mesures RSSI, analyse de canal et rapport de couverture.
+      </p>
+      <div class="project-stack" style="margin-bottom:1.6rem;">
+        <span class="tag gold">Acrylic HeatMaps</span>
+        <span class="tag">Wi-Fi 802.11</span>
+        <span class="tag">RSSI</span>
+        <span class="tag">Channel Coverage</span>
+        <span class="tag red">PoE</span>
+        <span class="tag">Câblage</span>
+      </div>
+      <div class="sae-meta-grid">
+        <div class="sae-meta-item">
+          <span class="sae-meta-label">Compétence BUT R&T</span>
+          <span class="sae-meta-value">RT2 — Connecter les entreprises</span>
+        </div>
+        <div class="sae-meta-item">
+          <span class="sae-meta-label">Semestre</span>
+          <span class="sae-meta-value">S1 — 2025/2026</span>
+        </div>
+        <div class="sae-meta-item">
+          <span class="sae-meta-label">Format</span>
+          <span class="sae-meta-value">Groupe + QCM Moodle individuel</span>
+        </div>
+        <div class="sae-meta-item">
+          <span class="sae-meta-label">Évaluation</span>
+          <span class="sae-meta-value">Rapport + Oral de groupe</span>
+        </div>
+        <div class="sae-meta-item">
+          <span class="sae-meta-label">Logiciel</span>
+          <span class="sae-meta-value">Acrylic Wi-Fi HeatMaps</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── 01 CONTEXTE ── -->
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 01 — Contexte du projet</div>
+      <h2 class="section-title reveal">Présentation<br />de la <em>SAÉ</em></h2>
+
+      <div class="project-detail reveal" style="margin-top:1.6rem;">
+        <div class="project-detail-body">
+          <div>
+            <div class="detail-section-title">Objectif de la SAÉ</div>
+            <ul class="detail-list">
+              <li>Mesurer et analyser la couverture Wi-Fi d'un bâtiment réel — les bâtiments C et I de l'UHA</li>
+              <li>Utiliser un logiciel professionnel de HeatMapping (Acrylic Wi-Fi HeatMaps) pour cartographier le signal</li>
+              <li>Effectuer des mesures PoE et des travaux de câblage sur noyaux en baie de brassage</li>
+              <li>Rédiger un rapport d'analyse et le présenter à l'oral en groupe</li>
+              <li>Répondre à un QCM individuel sur Moodle</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-section-title">Activités de la SAÉ</div>
+            <ul class="detail-list">
+              <li><strong style="color:var(--text)">Mesures PoE</strong> — mesures de puissance sur les équipements d'alimentation par câble réseau</li>
+              <li><strong style="color:var(--text)">Câblage noyaux</strong> — brassage des noyaux en baie de brassage</li>
+              <li><strong style="color:var(--text)">HeatMaps Wi-Fi</strong> — cartographie de couverture RSSI sur plan de bâtiment (ma contribution principale)</li>
+              <li><strong style="color:var(--text)">Rapport de groupe</strong> + présentation orale</li>
+              <li><strong style="color:var(--text)">QCM Moodle individuel</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 02 MES TÂCHES ── -->
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 02 — Ma contribution</div>
+      <h2 class="section-title reveal">Ce que j'ai <em>réalisé</em></h2>
+      <p class="section-sub reveal" style="margin-bottom:1rem;">J'ai pris en charge la réalisation des 4 HeatMaps de couverture Wi-Fi — bâtiments C et I, RDC et 1er étage.</p>
+
+      <div class="tasks-grid">
+        <div class="task-card reveal">
+          <div class="task-card-header">
+            <div class="task-icon">01</div>
+            <div class="task-card-title">Chargement des plans de bâtiment</div>
+          </div>
+          <ul>
+            <li>Import du plan de chaque étage dans Acrylic Wi-Fi HeatMaps</li>
+            <li>Calibration de l'échelle (ratio pixels/mètres) pour que les mesures GPS correspondent au plan</li>
+            <li>Configuration du projet pour chaque bâtiment et chaque niveau</li>
+          </ul>
+        </div>
+        <div class="task-card reveal">
+          <div class="task-card-header">
+            <div class="task-icon">02</div>
+            <div class="task-card-title">Marche de mesure RSSI</div>
+          </div>
+          <ul>
+            <li>Déplacement physique dans les couloirs et salles des bâtiments C et I</li>
+            <li>Clics sur le plan au fur et à mesure de la marche pour géolocaliser les mesures</li>
+            <li>Collecte automatique des signaux Wi-Fi détectés par l'adaptateur sans-fil</li>
+            <li>Couverture des 4 niveaux : Bât. C RDC, Bât. C 1er étage, Bât. I RDC, Bât. I 1er étage</li>
+          </ul>
+        </div>
+        <div class="task-card reveal">
+          <div class="task-card-header">
+            <div class="task-icon">03</div>
+            <div class="task-card-title">Génération des cartes de chaleur</div>
+          </div>
+          <ul>
+            <li>Rendu de la HeatMap RSSI — du bleu (signal faible) au rouge (signal fort)</li>
+            <li>Analyse de la Channel Coverage — répartition des canaux Wi-Fi sur le plan</li>
+            <li>Identification des zones d'ombre (signal absent ou très faible)</li>
+            <li>Export des 4 cartes pour intégration dans le rapport</li>
+          </ul>
+        </div>
+        <div class="task-card reveal">
+          <div class="task-card-header">
+            <div class="task-icon">04</div>
+            <div class="task-card-title">Analyse et rapport</div>
+          </div>
+          <ul>
+            <li>Interprétation des zones de couverture forte / faible par rapport à l'emplacement des bornes Wi-Fi</li>
+            <li>Rédaction de la partie HeatMaps dans le rapport de groupe</li>
+            <li>Présentation des résultats à l'oral</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 03 HEATMAPS ── -->
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 03 — Cartographies Wi-Fi</div>
+      <h2 class="section-title reveal">HeatMaps<br /><em>de couverture</em></h2>
+      <p class="section-sub reveal" style="margin-bottom:1rem;">4 cartes réalisées avec Acrylic Wi-Fi HeatMaps — mesures RSSI superposées sur les plans de l'UHA.</p>
+
+      <div class="legend-box reveal">
+        <div class="legend-item"><div class="legend-dot" style="background:#1a1aff;"></div>Signal très faible / absent</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#00b3b3;"></div>Signal faible</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#66cc00;"></div>Signal moyen</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ffcc00;"></div>Signal bon</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#cc0000;"></div>Signal fort (borne proche)</div>
+      </div>
+
+      <div class="heatmap-grid" style="margin-top:1.4rem;">
+        <div class="heatmap-card reveal">
+          <img src="BatCRDCSAE1.03.jpeg" alt="HeatMap Wi-Fi Bâtiment C RDC — couverture RSSI" loading="lazy" />
+          <div class="heatmap-card-body">
+            <div class="heatmap-card-sub">Bâtiment C · RDC</div>
+            <div class="heatmap-card-title">Bâtiment C — Rez-de-chaussée</div>
+            <div class="heatmap-card-desc">Couverture partielle — zones fortes autour des bornes centrales (c014–c019), zones d'ombre en c010/c009 et extrémité droite (c022).</div>
+          </div>
+        </div>
+        <div class="heatmap-card reveal">
+          <img src="BatCetage1SAE1.03.JPG" alt="HeatMap Wi-Fi Bâtiment C 1er étage — couverture RSSI" loading="lazy" />
+          <div class="heatmap-card-body">
+            <div class="heatmap-card-sub">Bâtiment C · 1er étage</div>
+            <div class="heatmap-card-title">Bâtiment C — 1er Étage</div>
+            <div class="heatmap-card-desc">Couverture plus homogène sur c101–c104/c107. Zone de signal fort localisée en c100 (borne proche). Angles moins couverts.</div>
+          </div>
+        </div>
+        <div class="heatmap-card reveal">
+          <img src="BatIRDCSAE1.03.jpeg" alt="HeatMap Wi-Fi Bâtiment I RDC — couverture RSSI" loading="lazy" />
+          <div class="heatmap-card-body">
+            <div class="heatmap-card-sub">Bâtiment I · RDC</div>
+            <div class="heatmap-card-title">Bâtiment I — Rez-de-chaussée</div>
+            <div class="heatmap-card-desc">Mesures réalisées sur le rez-de-chaussée du bâtiment I — analyse de la distribution du signal selon l'architecture des lieux.</div>
+          </div>
+        </div>
+        <div class="heatmap-card reveal">
+          <img src="BatIetage1SAE1.03.jpeg" alt="HeatMap Wi-Fi Bâtiment I 1er étage — couverture RSSI" loading="lazy" />
+          <div class="heatmap-card-body">
+            <div class="heatmap-card-sub">Bâtiment I · 1er étage</div>
+            <div class="heatmap-card-title">Bâtiment I — 1er Étage</div>
+            <div class="heatmap-card-desc">Cartographie du 1er étage du bâtiment I — identification des zones de couverture forte et des angles moins bien desservis.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 04 COMPÉTENCES ── -->
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 04 — Compétences acquises</div>
+      <h2 class="section-title reveal">Acquisition de<br /><em>compétences</em></h2>
+      <p class="section-sub reveal" style="margin-bottom:1rem;">Compétences RT2 du référentiel BUT R&T validées par cette SAÉ.</p>
+
+      <div class="comp-grid">
+        <div class="comp-card reveal">
+          <div class="comp-ac">RT2 — AC0221</div>
+          <div class="comp-title">Mesurer et analyser les signaux Wi-Fi</div>
+          <div class="comp-desc">Collecte de données RSSI sur le terrain avec Acrylic HeatMaps, interprétation des niveaux de signal et identification des zones de couverture insuffisante.</div>
+        </div>
+        <div class="comp-card reveal">
+          <div class="comp-ac">RT2 — AC0222</div>
+          <div class="comp-title">Caractériser un support de transmission radio</div>
+          <div class="comp-desc">Compréhension des paramètres Wi-Fi : atténuation du signal avec la distance, impact des obstacles (murs, cloisons), notion de canal et d'interférences.</div>
+        </div>
+        <div class="comp-card reveal">
+          <div class="comp-ac">RT2 — AC0223</div>
+          <div class="comp-title">Déployer un support de transmission</div>
+          <div class="comp-desc">Câblage de noyaux en baie de brassage, mesures PoE — compréhension du lien entre infrastructure physique et performance Wi-Fi.</div>
+        </div>
+        <div class="comp-card reveal">
+          <div class="comp-ac">RT2 — Analyse terrain</div>
+          <div class="comp-title">Lire et interpréter une HeatMap</div>
+          <div class="comp-desc">Capacité à lire une cartographie de couverture, identifier les zones d'ombre, comprendre l'emplacement des points d'accès et proposer des observations d'amélioration.</div>
+        </div>
+      </div>
+
+      <div class="reflexion-block reveal">
+        <p>Cette SAÉ m'a permis d'aborder concrètement la dimension physique des réseaux sans-fil — quelque chose qu'on ne voit pas en simulation. Effectuer la marche de mesure dans les bâtiments de l'UHA avec l'ordinateur et cliquer sur le plan en temps réel donne une compréhension intuitive de comment le signal se propage, s'atténue à travers les murs et se concentre autour des bornes.</p>
+        <p>J'ai aussi compris la complémentarité entre l'infrastructure physique (câblage PoE, baie de brassage) et la performance du réseau sans-fil — les deux sont indissociables dans un déploiement Wi-Fi professionnel.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 05 ENGLISH SUMMARY ── -->
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 05 — English summary</div>
+      <h2 class="section-title reveal">Project <em>overview</em></h2>
+
+      <div class="english-box reveal">
+        <div class="english-flag">English summary</div>
+        <p>SAÉ 1.03 was a practical project focused on measuring and mapping the Wi-Fi coverage of two university buildings — Building C and Building I — at the University of Haute-Alsace (UHA). The project combined physical infrastructure work (PoE measurements, patch panel cabling) with wireless signal analysis using Acrylic Wi-Fi HeatMaps software.</p>
+        <p>My personal contribution was the creation of the four Wi-Fi coverage heatmaps: ground floor and first floor for both buildings. I loaded the floor plans into Acrylic, calibrated the scale, and walked through the hallways and rooms while clicking on the plan to geolocate each signal measurement. The software generated RSSI heatmaps showing signal strength from dark blue (weak or absent) to red (strong, near an access point), as well as channel coverage maps.</p>
+        <p>The results revealed partial coverage on Building C's ground floor with shadow zones in specific areas, and more homogeneous coverage on the upper floors. This project developed my skills in wireless network analysis, physical transmission support characterization, and professional reporting — all core competencies of the RT2 track in the BUT Réseaux & Télécommunications program.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="sae-footer">
+    <a href="index.html#projets" class="btn-secondary">← Retour aux projets</a>
+    <span class="sae-footer-copy">Aymen Mrizel — BUT R&T IUT Colmar — 2026</span>
+    <a href="index.html#contact" class="btn-secondary">Contact →</a>
+  </footer>
+
+  <script src="Script.js"></script>
+</body>
+</html>

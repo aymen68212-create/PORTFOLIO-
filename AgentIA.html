@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent IA — Automatisation n8n | Aymen Mrizel</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23FAFAF8'/><text x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-weight='bold' font-size='14' fill='%23B8952A'>AM</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .sae-hero{padding:calc(var(--nav-h) + 70px) 5vw 60px;position:relative;z-index:1;border-bottom:1px solid var(--border);background:var(--bg2);}
+    .sae-hero-inner{max-width:860px;}
+    .sae-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:0.62rem;color:var(--gold);background:var(--gold-pale);border:1px solid var(--gold-glow);padding:4px 12px;border-radius:4px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.4rem;}
+    .sae-badge::before{content:'';width:6px;height:6px;background:var(--gold);border-radius:50%;}
+    .sae-hero h1{font-family:var(--font-serif);font-size:clamp(2rem,5vw,3.4rem);font-weight:600;line-height:1.08;margin-bottom:1rem;}
+    .sae-hero h1 em{font-style:italic;color:var(--gold);}
+    .sae-hero-desc{color:var(--text-muted);font-size:0.95rem;max-width:620px;line-height:1.75;margin-bottom:2rem;}
+    .sae-meta-grid{display:flex;flex-wrap:wrap;gap:2rem;margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border);}
+    .sae-meta-item{display:flex;flex-direction:column;gap:4px;}
+    .sae-meta-label{font-family:var(--font-mono);font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;}
+    .sae-meta-value{font-size:0.9rem;font-weight:600;color:var(--text);}
+    .sae-section{padding:70px 5vw;position:relative;z-index:1;border-bottom:1px solid var(--border);}
+    .sae-section-inner{max-width:860px;}
+    .reflexion-block{background:var(--bg3);border-left:3px solid var(--gold);padding:1.2rem 1.6rem;border-radius:0 var(--radius) var(--radius) 0;margin-top:1.6rem;}
+    .reflexion-block p{font-size:0.88rem;color:var(--text-sub);line-height:1.8;}
+    .english-box{background:var(--card);border:1px solid var(--border-br);border-radius:var(--radius-lg);padding:2rem;position:relative;overflow:hidden;margin-top:1.6rem;}
+    .english-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--green));}
+    .english-flag{font-family:var(--font-mono);font-size:0.62rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;display:flex;align-items:center;gap:6px;}
+    .english-flag::before{content:'🇬🇧';font-size:0.9rem;}
+    .english-box p{font-size:0.88rem;color:var(--text-muted);line-height:1.85;}
+    .english-box p+p{margin-top:1rem;}
+    .sae-footer{padding:50px 5vw;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;position:relative;z-index:1;background:var(--bg2);}
+    .sae-footer-copy{font-family:var(--font-mono);font-size:0.62rem;color:var(--text-muted);}
+    .img-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:1.2rem;}
+    .img-card img{width:100%;height:auto;display:block;}
+    .img-card-cap{padding:8px 14px;font-family:var(--font-mono);font-size:0.6rem;color:var(--text-muted);border-top:1px solid var(--border);letter-spacing:0.06em;}
+    .pipeline-steps{display:flex;flex-direction:column;gap:0;margin-top:1.4rem;}
+    .pipeline-step{display:flex;gap:1.2rem;align-items:flex-start;padding:1rem 0;border-bottom:1px solid var(--border);}
+    .pipeline-step:last-child{border-bottom:none;}
+    .step-num{font-family:var(--font-mono);font-size:0.7rem;color:var(--gold);background:var(--gold-pale);border:1px solid var(--gold-glow);border-radius:4px;padding:3px 8px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+    .step-content strong{display:block;font-size:0.85rem;color:var(--text);margin-bottom:3px;}
+    .step-content p{font-size:0.78rem;color:var(--text-muted);line-height:1.6;}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">Aymen<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#parcours">Parcours</a></li>
+      <li><a href="index.html#competences">Compétences</a></li>
+      <li><a href="index.html#projets" class="active">Projets</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <a href="https://aymen68212-create.github.io/Mon-CV-/Mon%20CV.pdf" class="nav-cv" target="_blank" rel="noopener noreferrer">↓ CV</a>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="index.html">Accueil</a><a href="index.html#projets">Projets</a><a href="index.html#contact">Contact</a>
+  </div>
+
+  <div class="sae-hero">
+    <div class="sae-hero-inner">
+      <div class="breadcrumb"><a href="index.html">Accueil</a><span>/</span><a href="index.html#projets">Projets</a><span>/</span><span>Agent IA</span></div>
+      <div class="sae-badge">Projet personnel — Automatisation</div>
+      <h1>Agent IA<br /><em>Automatisation n8n</em></h1>
+      <p class="sae-hero-desc">Agent IA construit dans n8n pour automatiser la veille technologique : 20 articles RSS en entrée → 20 résumés complets générés automatiquement par un LLM en sortie.</p>
+      <div class="project-stack" style="margin-bottom:1.6rem;">
+        <span class="tag gold">n8n</span><span class="tag">RSS</span><span class="tag">LLM</span><span class="tag">IA générative</span><span class="tag">Automatisation</span>
+      </div>
+      <div class="sae-meta-grid">
+        <div class="sae-meta-item"><span class="sae-meta-label">Type</span><span class="sae-meta-value">Projet personnel</span></div>
+        <div class="sae-meta-item"><span class="sae-meta-label">Compétence</span><span class="sae-meta-value">RT3 — Créer des outils R&T</span></div>
+        <div class="sae-meta-item"><span class="sae-meta-label">Outil</span><span class="sae-meta-value">n8n (workflow automation)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 01 — Pipeline</div>
+      <h2 class="section-title reveal">Fonctionnement<br />du <em>workflow</em></h2>
+      <div class="pipeline-steps reveal">
+        <div class="pipeline-step">
+          <div class="step-num">01</div>
+          <div class="step-content"><strong>Déclencheur planifié</strong><p>Lancement automatique du workflow à intervalle défini — aucune intervention manuelle requise.</p></div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">02</div>
+          <div class="step-content"><strong>Nœud RSS</strong><p>Récupération des 20 derniers articles depuis un flux d'actualité technologique. Extraction du titre, du lien et du contenu de chaque article.</p></div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">03</div>
+          <div class="step-content"><strong>Nœud Limit</strong><p>Filtre limitant le nombre d'articles traités par exécution — contrôle du débit de l'agent.</p></div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">04</div>
+          <div class="step-content"><strong>Nœud LLM</strong><p>Lecture de chaque article par le modèle de langage et génération d'un résumé synthétique structuré. 20 articles en entrée → 20 résumés complets en sortie.</p></div>
+        </div>
+      </div>
+
+      <div class="img-card reveal">
+        <img src="agent_n8n.JPEG" alt="Workflow n8n — agent IA RSS et résumés" loading="lazy" />
+        <div class="img-card-cap">Workflow n8n — déclencheur → RSS → Limit → LLM → résumés</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 02 — Compétences & réflexion</div>
+      <h2 class="section-title reveal">Ce que ce projet<br /><em>m'a appris</em></h2>
+      <div class="project-detail reveal" style="margin-top:1.6rem;">
+        <div class="project-detail-body">
+          <div>
+            <div class="detail-section-title">Compétences mobilisées</div>
+            <ul class="detail-list">
+              <li>Construction et débogage d'un workflow n8n de bout en bout</li>
+              <li>Intégration d'un flux RSS comme source de données structurée</li>
+              <li>Utilisation concrète d'un LLM dans un pipeline d'automatisation</li>
+              <li>Logique de traitement séquentiel et contrôle du flux</li>
+            </ul>
+          </div>
+          <div>
+            <div class="detail-section-title">Lien avec RT3</div>
+            <ul class="detail-list">
+              <li>Création d'un outil d'automatisation pour les R&T</li>
+              <li>Intégration d'outils tiers (RSS, LLM) dans un pipeline structuré</li>
+              <li>Logique de traitement de données — collecte, filtre, transformation</li>
+              <li>Approche sans-code / low-code — n8n comme outil d'ingénieur R&T</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="reflexion-block reveal">
+        <p>Ce projet personnel m'a montré comment l'automatisation peut transformer une tâche répétitive (lire et résumer des articles) en un pipeline autonome. C'est une compétence directement applicable dans un contexte professionnel R&T — surveiller des logs, agréger des alertes, générer des rapports automatiquement.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="sae-section">
+    <div class="sae-section-inner">
+      <div class="section-label reveal">// 03 — English summary</div>
+      <h2 class="section-title reveal">Project <em>overview</em></h2>
+      <div class="english-box reveal">
+        <div class="english-flag">English summary</div>
+        <p>This personal project consisted of building an AI agent in n8n to automate technology news monitoring. The pipeline works as follows: a scheduled trigger activates the workflow automatically; an RSS node retrieves 20 articles from a tech news feed; a Limit node controls the number of items processed per run; and an LLM node reads each article and generates a structured summary. The result: 20 articles in, 20 complete summaries out, without any manual intervention.</p>
+        <p>This project developed my skills in workflow automation, data pipeline design, and practical integration of large language models — skills that directly apply to the RT3 competency track (Creating R&T Tools and Applications) in the BUT Réseaux & Télécommunications program.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="sae-footer">
+    <a href="index.html#projets" class="btn-secondary">← Retour aux projets</a>
+    <span class="sae-footer-copy">Aymen Mrizel — BUT R&T IUT Colmar — 2026</span>
+    <a href="index.html#contact" class="btn-secondary">Contact →</a>
+  </footer>
+  <script src="Script.js"></script>
+</body>
+</html>

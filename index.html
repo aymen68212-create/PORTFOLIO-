@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aymen Mrizel — Portfolio BUT R&T</title>
+  <meta name="description" content="Portfolio d'Aymen Mrizel, étudiant en B.U.T. Réseaux & Télécommunications à l'IUT de Colmar." />
+  <meta name="theme-color" content="#FAFAF8" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23FAFAF8'/><text x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-weight='bold' font-size='14' fill='%23B8952A'>AM</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Aymen<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#parcours">Parcours</a></li>
+      <li><a href="#competences">Compétences</a></li>
+      <li><a href="#projets">Projets</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="https://aymen68212-create.github.io/Mon-CV-/Mon%20CV.pdf" class="nav-cv" target="_blank" rel="noopener noreferrer">↓ CV</a>
+    <div class="hamburger" aria-label="Menu"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="mobile-menu">
+    <a href="#parcours">Parcours</a>
+    <a href="#competences">Compétences</a>
+    <a href="#projets">Projets</a>
+    <a href="#contact">Contact</a>
+    <a href="https://aymen68212-create.github.io/Mon-CV-/Mon%20CV.pdf" target="_blank" rel="noopener noreferrer">↓ Télécharger CV</a>
+  </div>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-ornament"></div>
+    <div class="hero-inner">
+      <div class="hero-terminal">
+        <span class="terminal-prompt">aymen@portfolio:~$</span>
+        <span class="terminal-cursor"></span>
+      </div>
+      <div class="hero-tag">Disponible pour alternance — Réseaux & Cybersécurité</div>
+      <h1 class="hero-name">Aymen<br /><em>Mrizel</em></h1>
+      <p class="hero-subtitle">
+        Étudiant en <strong>B.U.T. Réseaux & Télécommunications</strong> à l'IUT de Colmar.<br />
+        Passionné par la <strong>cybersécurité</strong>, les infrastructures réseau et l'automatisation.
+      </p>
+      <div class="hero-actions">
+        <a href="#projets" class="btn-primary">Voir mes projets ↓</a>
+        <a href="https://aymen68212-create.github.io/Mon-CV-/Mon%20CV.pdf" class="btn-secondary" target="_blank" rel="noopener noreferrer">↓ Télécharger CV</a>
+        <button class="btn-terminal" onclick="openTerminal()">›_ Terminal</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">1ère</span>
+          <span class="stat-label">Année BUT R&T</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value">5</span>
+          <span class="stat-label">Projets SAÉ</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value">Cyber</span>
+          <span class="stat-label">Orientation visée</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── PARCOURS ── -->
+  <section id="parcours">
+    <div class="section-label reveal">// parcours</div>
+    <h2 class="section-title reveal">Mon <em>parcours</em></h2>
+    <p class="section-sub reveal">Formation académique et étapes clés de mon développement technique.</p>
+
+    <div class="timeline">
+      <div class="timeline-item active reveal reveal-delay-1">
+        <div class="timeline-period">2025 — Présent</div>
+        <div class="timeline-school">B.U.T. Réseaux & Télécommunications</div>
+        <div class="timeline-place">IUT de Colmar — Université de Haute-Alsace</div>
+        <div class="timeline-desc">Formation orientée déploiement et sécurisation des infrastructures numériques. Apprentissage par les SAÉ — projets concrets en réseaux, systèmes, programmation et cybersécurité.</div>
+        <div class="timeline-tags">
+          <span class="tag gold">En cours</span>
+          <span class="tag">Réseaux</span>
+          <span class="tag">Linux</span>
+          <span class="tag">EVE-NG</span>
+          <span class="tag">Cybersécurité</span>
+        </div>
+      </div>
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-period">2022 — 2025</div>
+        <div class="timeline-school">Baccalauréat Général — Obtenu 2025</div>
+        <div class="timeline-place">Lycée Albert Schweitzer, Mulhouse</div>
+        <div class="timeline-desc">Spécialités Mathématiques et Physique-Chimie. Formation scientifique solide orientant vers les filières techniques et informatiques.</div>
+        <div class="timeline-tags">
+          <span class="tag">Mathématiques</span>
+          <span class="tag">Physique-Chimie</span>
+        </div>
+      </div>
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="timeline-period">2018 — 2022</div>
+        <div class="timeline-school">Brevet des Collèges — Mention Très Bien</div>
+        <div class="timeline-place">Collège du Nonnenbruch, Lutterbach</div>
+        <div class="timeline-desc">Parcours général avec mention très bien. Premières bases scientifiques et analytiques.</div>
+        <div class="timeline-tags"><span class="tag">Mention TB</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;" class="reveal">
+      <a href="Parcours.html" class="btn-secondary">Voir le parcours complet →</a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── COMPÉTENCES ── -->
+  <section id="competences">
+    <div class="section-label reveal">// compétences BUT R&T</div>
+    <h2 class="section-title reveal">Trois compétences,<br /><em>une formation</em></h2>
+    <p class="section-sub reveal">Les 3 compétences du référentiel BUT R&T — validées par les SAÉ et les travaux pratiques.</p>
+
+    <div class="skills-grid">
+      <div class="skill-card reveal reveal-delay-1">
+        <div class="skill-card-icon net">🌐</div>
+        <div class="skill-card-title">RT1 — Administrer les réseaux</div>
+        <ul class="skill-list">
+          <li class="skill-item">Configuration routeurs & switches Cisco</li>
+          <li class="skill-item">VLANs, VTP, routage inter-VLAN, ACL</li>
+          <li class="skill-item">DHCP, DNS, services réseau</li>
+          <li class="skill-item">Cisco Packet Tracer & EVE-NG</li>
+          <li class="skill-item">pfSense — firewall, NAT, proxy</li>
+          <li class="skill-item">Linux Debian — administration système</li>
+        </ul>
+      </div>
+      <div class="skill-card reveal reveal-delay-2">
+        <div class="skill-card-icon sys">📡</div>
+        <div class="skill-card-title">RT2 — Connecter les entreprises</div>
+        <ul class="skill-list">
+          <li class="skill-item">Wi-Fi — mesures RSSI, HeatMaps Acrylic</li>
+          <li class="skill-item">PoE — mesures et câblage</li>
+          <li class="skill-item">Câblage baie de brassage, noyaux</li>
+          <li class="skill-item">Supports de transmission</li>
+          <li class="skill-item">Virtualisation VirtualBox</li>
+          <li class="skill-item">Analyse de couverture radio</li>
+        </ul>
+      </div>
+      <div class="skill-card reveal reveal-delay-3">
+        <div class="skill-card-icon dev">&lt;/&gt;</div>
+        <div class="skill-card-title">RT3 — Créer des outils R&T</div>
+        <ul class="skill-list">
+          <li class="skill-item">Python — PyQt5, Django, traitement de données</li>
+          <li class="skill-item">MariaDB — schéma relationnel, CRUD, SQL</li>
+          <li class="skill-item">PowerShell — scripting & automatisation</li>
+          <li class="skill-item">n8n — workflows IA, automatisation</li>
+          <li class="skill-item">Déploiement Nginx / Gunicorn / SSH</li>
+          <li class="skill-item">HTML5, CSS3, GitHub</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── PROJETS ── -->
+  <section id="projets">
+    <div class="section-label reveal">// projets SAÉ & personnels</div>
+    <h2 class="section-title reveal">Mes <em>projets</em></h2>
+    <p class="section-sub reveal">Chaque projet atteste d'au moins une compétence du référentiel BUT R&T. Cliquer pour accéder à la fiche complète.</p>
+
+    <div class="projects-grid">
+
+      <!-- SAÉ 1.02 -->
+      <a href="SAE102.html" class="project-card reveal reveal-delay-1">
+        <div class="project-card-top">
+          <span class="project-number">SAÉ 1.02 — S1</span>
+          <span class="project-arrow">↗</span>
+        </div>
+        <div class="project-title">Architecture Réseau d'Entreprise</div>
+        <div class="project-desc">LAN structuré sous EVE-NG — VLANs, VTP, DHCP Linux, routage inter-VLAN.</div>
+        <div class="project-stack">
+          <span class="tag gold">EVE-NG</span>
+          <span class="tag">Cisco IOS</span>
+          <span class="tag">VLAN / VTP</span>
+          <span class="tag">DHCP</span>
+        </div>
+        <div style="margin-top:0.8rem;">
+          <span class="project-comp">RT1 — Administrer les réseaux</span>
+        </div>
+      </a>
+
+      <!-- SAÉ 1.03 -->
+      <a href="SAE103.html" class="project-card reveal reveal-delay-2">
+        <div class="project-card-top">
+          <span class="project-number">SAÉ 1.03 — S1</span>
+          <span class="project-arrow">↗</span>
+        </div>
+        <div class="project-title">Couverture Wi-Fi UHA — HeatMaps</div>
+        <div class="project-desc">Mesures RSSI et cartographie Wi-Fi des bâtiments C et I de l'UHA avec Acrylic HeatMaps.</div>
+        <div class="project-stack">
+          <span class="tag gold">Acrylic HeatMaps</span>
+          <span class="tag">Wi-Fi</span>
+          <span class="tag">RSSI</span>
+          <span class="tag">PoE</span>
+        </div>
+        <div style="margin-top:0.8rem;">
+          <span class="project-comp red">RT2 — Connecter les entreprises</span>
+        </div>
+      </a>
+
+      <!-- SAÉ 1.05 -->
+      <a href="SAE105.html" class="project-card reveal reveal-delay-3">
+        <div class="project-card-top">
+          <span class="project-number">SAÉ 1.05 — S1</span>
+          <span class="project-arrow">↗</span>
+        </div>
+        <div class="project-title">Outil d'Analyse & Nettoyage de Disque</div>
+        <div class="project-desc">Solution modulaire Python + PowerShell + PyQt5 pour analyser et nettoyer les fichiers volumineux.</div>
+        <div class="project-stack">
+          <span class="tag green">Python</span>
+          <span class="tag green">PowerShell</span>
+          <span class="tag">PyQt5</span>
+          <span class="tag">JSON</span>
+        </div>
+        <div style="margin-top:0.8rem;">
+          <span class="project-comp green">RT3 — Créer des outils R&T</span>
+        </div>
+      </a>
+
+      <!-- SAÉ 2.03 -->
+      <a href="SAE203.html" class="project-card reveal reveal-delay-1">
+        <div class="project-card-top">
+          <span class="project-number">SAÉ 2.03 — S2</span>
+          <span class="project-arrow">↗</span>
+        </div>
+        <div class="project-title">Application Drive Supermarché</div>
+        <div class="project-desc">Application web Django + MariaDB déployée sur deux VMs Debian — CRUD complet, import CSV, Nginx/Gunicorn.</div>
+        <div class="project-stack">
+          <span class="tag green">Django</span>
+          <span class="tag green">MariaDB</span>
+          <span class="tag">Nginx</span>
+          <span class="tag">Debian</span>
+        </div>
+        <div style="margin-top:0.8rem;">
+          <span class="project-comp green">RT3 — Créer des outils R&T</span>
+        </div>
+      </a>
+
+      <!-- Agent IA -->
+      <a href="AgentIA.html" class="project-card reveal reveal-delay-2">
+        <div class="project-card-top">
+          <span class="project-number">Projet personnel</span>
+          <span class="project-arrow">↗</span>
+        </div>
+        <div class="project-title">Agent IA — Automatisation n8n</div>
+        <div class="project-desc">Pipeline n8n : flux RSS → filtre → LLM → 20 résumés générés automatiquement en sortie.</div>
+        <div class="project-stack">
+          <span class="tag gold">n8n</span>
+          <span class="tag">IA générative</span>
+          <span class="tag">RSS</span>
+          <span class="tag">Automatisation</span>
+        </div>
+        <div style="margin-top:0.8rem;">
+          <span class="project-comp green">RT3 — Créer des outils R&T</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact">
+    <div class="section-label reveal">// contact</div>
+    <h2 class="section-title reveal">Travaillons<br /><em>ensemble</em></h2>
+    <p class="section-sub reveal">Un projet, une question, une opportunité d'alternance ?</p>
+
+    <div class="contact-grid">
+      <div>
+        <p class="contact-intro reveal">
+          Je suis à la recherche d'une <strong>alternance en Réseaux & Cybersécurité</strong> pour la rentrée 2026/27. Motivé, rigoureux et passionné par les sujets techniques, je suis prêt à m'investir pleinement dans un environnement professionnel stimulant.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:aymen68212@gmail.com" class="contact-link reveal reveal-delay-1">
+            <div class="contact-link-icon">✉</div>
+            <div class="contact-link-info">
+              <span class="contact-link-label">Email</span>
+              <span class="contact-link-value">aymen68212@gmail.com</span>
+            </div>
+          </a>
+          <a href="https://github.com/aymen68212-create" class="contact-link reveal reveal-delay-2" target="_blank" rel="noopener noreferrer">
+            <div class="contact-link-icon">GH</div>
+            <div class="contact-link-info">
+              <span class="contact-link-label">GitHub</span>
+              <span class="contact-link-value">aymen68212-create</span>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/aymen-mrizel-6b898a3b0/" class="contact-link reveal reveal-delay-3" target="_blank" rel="noopener noreferrer">
+            <div class="contact-link-icon">in</div>
+            <div class="contact-link-info">
+              <span class="contact-link-label">LinkedIn</span>
+              <span class="contact-link-value">aymen-mrizel</span>
+            </div>
+          </a>
+          <a href="https://aymen68212-create.github.io/Mon-CV-/Mon%20CV.pdf" class="contact-link reveal reveal-delay-4" target="_blank" rel="noopener noreferrer">
+            <div class="contact-link-icon">↓</div>
+            <div class="contact-link-info">
+              <span class="contact-link-label">CV PDF</span>
+              <span class="contact-link-value">Télécharger mon CV</span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <form id="contact-form" class="contact-form reveal reveal-delay-2">
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" name="from_name" placeholder="Votre nom" required />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="reply_to" placeholder="votre@email.com" required />
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea name="message" placeholder="Votre message..." required></textarea>
+        </div>
+        <button type="submit" class="btn-primary">Envoyer →</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Aymen <span>Mrizel</span></div>
+    <div class="footer-links">
+      <a href="Parcours.html">Parcours</a>
+      <a href="#projets">Projets</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 — BUT R&T IUT Colmar</div>
+  </footer>
+
+  <!-- ── TERMINAL ── -->
+  <div class="term-overlay" id="termOverlay">
+    <div class="term-window" id="termWindow">
+      <div class="term-titlebar">
+        <div class="term-dots">
+          <span class="tdot tdot-r" id="termDotR" title="Fermer"></span>
+          <span class="tdot tdot-y"></span>
+          <span class="tdot tdot-g"></span>
+        </div>
+        <span class="term-title">aymen@portfolio — bash</span>
+        <div style="width:52px"></div>
+      </div>
+      <div class="term-body" id="termBody">
+        <div class="term-out" id="termOut"></div>
+        <div class="term-input-row" id="termInputRow">
+          <span class="term-ps1">aymen@portfolio:~$&nbsp;</span>
+          <input type="text" id="termInput" class="term-in" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Commande terminal" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>(function(){ emailjs.init("RG9EJmArtKuCc5GmQ"); })();</script>
+  <script src="Script.js"></script>
+</body>
+</html>
